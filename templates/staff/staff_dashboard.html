@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+
+{% block title %}Staff Dashboard{% endblock %}
+
+{% block content %}
+<section class="content">
+  <div class="container-fluid pt-3">
+
+    <!-- Welcome -->
+    <div class="row mb-3">
+      <div class="col-12">
+        <h2>Welcome, {{ user.username }}</h2>
+      </div>
+    </div>
+
+   <!-- Quick Action Buttons -->
+<div class="row mb-4">
+  <div class="col-12">
+    <a href="{% url 'submit_request' %}" class="btn btn-primary mr-2 mb-2">
+      <i class="fas fa-edit"></i> Submit Request
+    </a>
+    <a href="{% url 'my_requests' %}" class="btn btn-info mr-2 mb-2">
+      <i class="fas fa-list"></i> View My Requests
+    </a>
+    <a href="{% url 'notifications' %}" class="btn btn-warning mb-2">
+      <i class="fas fa-bell"></i> Notifications
+    </a>
+  </div>
+</div>
+
+
+    <!-- Quick Action Cards -->
+    <div class="row mb-4">
+      <div class="col-md-3 col-sm-6">
+        <div class="info-box bg-primary">
+          <span class="info-box-icon"><i class="fas fa-tasks"></i></span>
+          <div class="info-box-content">
+            <span class="info-box-text">Total Requests</span>
+            <span class="info-box-number">{{ total_requests }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="info-box bg-warning">
+          <span class="info-box-icon"><i class="fas fa-hourglass-start"></i></span>
+          <div class="info-box-content">
+            <span class="info-box-text">Pending Requests</span>
+            <span class="info-box-number">{{ pending_requests }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="info-box bg-success">
+          <span class="info-box-icon"><i class="fas fa-check-circle"></i></span>
+          <div class="info-box-content">
+            <span class="info-box-text">Completed</span>
+            <span class="info-box-number">{{ completed_requests }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="info-box bg-danger">
+          <span class="info-box-icon"><i class="fas fa-times-circle"></i></span>
+          <div class="info-box-content">
+            <span class="info-box-text">Rejected</span>
+            <span class="info-box-number">{{ rejected_requests }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="row mb-4">
+      <div class="col-md-6">
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">Requests by Category</h3>
+          </div>
+          <div class="card-body">
+            <canvas id="categoryPieChart" style="height:250px"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card card-info">
+          <div class="card-header">
+            <h3 class="card-title">Requests by Status</h3>
+          </div>
+          <div class="card-body">
+            <canvas id="statusBarChart" style="height:250px"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Latest Requests Table -->
+    <div class="row">
+      <div class="col-12">
+        <div class="card card-secondary">
+          <div class="card-header">
+            <h3 class="card-title">Latest Requests</h3>
+          </div>
+          <div class="card-body table-responsive p-0" style="max-height: 300px;">
+            <table class="table table-hover text-nowrap">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Title</th>
+                  <th>Category</th>
+                  <th>Status</th>
+                  <th>Created At</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for req in latest_requests %}
+                <tr>
+                  <td>{{ req.id }}</td>
+                  <td>{{ req.title }}</td>
+                  <td>{{ req.category.name }}</td>
+                  <td>{{ req.status }}</td>
+                  <td>{{ req.created_at|date:"M d, Y H:i" }}</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="5">No requests found.</td></tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+{% load static %}
+<script src="{% static 'adminLTE/plugins/chart.js/chart.min.js' %}"></script>
+<script>
+  // Pie Chart - Category
+  var ctxPie = document.getElementById('categoryPieChart').getContext('2d');
+  var categoryLabels = JSON.parse('{{ category_labels_json|escapejs }}');
+  var categoryData   = JSON.parse('{{ category_counts_json|escapejs }}');
+  new Chart(ctxPie, {
+      type: 'pie',
+      data: {
+          labels: categoryLabels,
+          datasets: [{
+              data: categoryData,
+              backgroundColor: ['#007bff','#28a745','#ffc107','#dc3545','#6c757d','#17a2b8'],
+          }]
+      },
+      options: { responsive: true }
+  });
+
+  // Bar Chart - Status
+  var ctxBar = document.getElementById('statusBarChart').getContext('2d');
+  var statusLabels = JSON.parse('{{ status_labels_json|escapejs }}');
+  var statusData   = JSON.parse('{{ status_counts_json|escapejs }}');
+  new Chart(ctxBar, {
+      type: 'bar',
+      data: {
+          labels: statusLabels,
+          datasets: [{
+              label: 'Requests Count',
+              data: statusData,
+              backgroundColor: '#17a2b8'
+          }]
+      },
+      options: {
+          responsive: true,
+          scales: {
+              y: {
+                  beginAtZero: true,
+                  ticks: { precision: 0 }
+              }
+          }
+      }
+  });
+</script>
+{% endblock %}

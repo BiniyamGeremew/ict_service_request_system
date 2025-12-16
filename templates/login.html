@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+{% load widget_tweaks %}
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" /> <!-- Responsiveness -->
+  <title>Login - Service Request System</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+  <style>
+    body {
+      background-color: #f0f2f5;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      min-height: 90vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .login-container {
+      width: 90vw;
+      max-width: 400px;
+      padding: 1.5rem 1.5rem 2rem;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      box-sizing: border-box;
+    }
+    .logo {
+      display: block;
+      margin: 0 auto 15px;
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+    }
+    .system-title {
+      text-align: center;
+      font-weight: 600;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      color: #0081cf;
+    }
+    .form-control-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #6c757d;
+      z-index: 2;
+    }
+    .input-group-custom {
+      position: relative;
+    }
+    .input-group-custom .form-control {
+      padding-left: 2.5rem;
+      background-color: #fff;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .input-group-custom .form-control:focus {
+      border-color: #0081cf;
+      box-shadow: 0 0 0 0.15rem rgba(13,110,253,0.25);
+      background-color: #fff;
+    }
+    .forgot-link {
+      display: block;
+      text-align: right;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+      color: #0081cf;
+    }
+    .forgot-link:hover {
+      text-decoration: underline;
+    }
+    .btn-blue {
+      background-color: #0081cf;
+      border-color: #0081cf;
+      font-weight: 600;
+    }
+    .btn-blue:hover {
+      background-color: #006bbd;
+      border-color: #006bbd;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <!-- University Logo -->
+    <img src="{% static 'img/uniLogo.jpg' %}" alt="University Logo" class="logo" />
+
+    <!-- System Name -->
+    <div class="system-title">ICT Service Request System</div>
+
+    <!-- Welcome Text -->
+    <p class="text-center text-muted mb-4">Use your username and password to log in</p>
+
+    <!-- MESSAGES START HERE -->
+    {% if messages %}
+      <div class="mb-3">
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    <!-- MESSAGES END HERE -->
+
+    <!-- Login Form -->
+    <form method="POST">
+      {% csrf_token %}
+      <div class="mb-3 input-group-custom">
+        <i class="bi bi-person form-control-icon"></i>
+        {{ form.username|add_class:"form-control" }}
+      </div>
+
+      <div class="mb-3 input-group-custom">
+        <i class="bi bi-key form-control-icon"></i>
+        {{ form.password|add_class:"form-control" }}
+      </div>
+
+      <div class="d-grid mb-3">
+        <button type="submit" class="btn btn-blue text-white">Login</button>
+      </div>
+
+      <a href="#" class="forgot-link text-decoration-none">Forgot your password?</a>
+    </form>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

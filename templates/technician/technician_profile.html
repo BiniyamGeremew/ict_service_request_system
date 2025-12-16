@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block title %}My Profile{% endblock %}
+
+{% block extra_css %}
+<style>
+  @media (min-width: 768px) {
+    .btn-space + .btn-space {
+      margin-left: 1rem; 
+    }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="content">
+  <div class="container-fluid pt-3">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+
+        <div class="card card-primary card-outline">
+          <div class="card-header">
+            <h3 class="card-title">
+              <i class="fas fa-user"></i> Profile Details
+            </h3>
+          </div>
+          <div class="card-body">
+
+            <dl class="row">
+              <dt class="col-sm-4">Username:</dt>
+              <dd class="col-sm-8">{{ user.username }}</dd>
+
+              <dt class="col-sm-4">First Name:</dt>
+              <dd class="col-sm-8">{{ user.first_name|default:"-" }}</dd>
+
+              <dt class="col-sm-4">Last Name:</dt>
+              <dd class="col-sm-8">{{ user.last_name|default:"-" }}</dd>
+
+              <dt class="col-sm-4">Email:</dt>
+              <dd class="col-sm-8">{{ user.email|default:"-" }}</dd>
+
+              <dt class="col-sm-4">Department:</dt>
+              <dd class="col-sm-8">{{ user.department|default:"-" }}</dd>
+
+              <dt class="col-sm-4">Technician ID:</dt>
+              <dd class="col-sm-8">{{ user.staff_id|default:"-" }}</dd>
+
+              <dt class="col-sm-4">Phone Number:</dt>
+              <dd class="col-sm-8">{{ user.phone_number|default:"-" }}</dd>
+
+              <dt class="col-sm-4">Joined On:</dt>
+              <dd class="col-sm-8">{{ user.date_joined|date:"F j, Y" }}</dd>
+            </dl>
+
+            <div class="mt-4 d-flex flex-column flex-md-row">
+              <a href="{% url 'technician_edit_profile' %}" class="btn btn-warning mb-2 mb-md-0 btn-space">
+                <i class="fas fa-edit"></i> Edit Profile
+              </a>
+              <a href="#" class="btn btn-info btn-space">
+                <i class="fas fa-key"></i> Change Password
+              </a>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

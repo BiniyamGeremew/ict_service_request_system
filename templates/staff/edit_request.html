@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+{% block title %}Edit Request{% endblock %}
+
+{% block content %}
+<div class="content p-4">
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <h4 class="mb-0">Edit Service Request</h4>
+    </div>
+    <div class="card-body">
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="form-group mb-3">
+          <label for="{{ form.title.id_for_label }}">Title</label>
+          {{ form.title|add_class:"form-control" }}
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="{{ form.description.id_for_label }}">Description</label>
+          {{ form.description|add_class:"form-control" }}
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="{{ form.category.id_for_label }}">Category</label>
+          {{ form.category|add_class:"form-control" }}
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="{{ form.priority.id_for_label }}">Priority</label>
+          {{ form.priority|add_class:"form-control" }}
+        </div>
+
+        <!-- Location fields -->
+        <h5 class="mb-3 mt-4">Location Details</h5>
+
+        <div class="form-group mb-3">
+          <label for="{{ form.block_building.id_for_label }}">Block/Building</label>
+          {{ form.block_building|add_class:"form-control" }}
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="{{ form.floor.id_for_label }}">Floor</label>
+          {{ form.floor|add_class:"form-control" }}
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="{{ form.room.id_for_label }}">Room</label>
+          {{ form.room|add_class:"form-control" }}
+        </div>
+
+        {% if form.attachment %}
+        <div class="form-group mb-3">
+          <label for="{{ form.attachment.id_for_label }}">Attachment</label>
+          {{ form.attachment|add_class:"form-control" }}
+          {% if request_obj.attachment %}
+            <p class="mt-2">Current File: <a href="{{ request_obj.attachment.url }}" target="_blank">View</a></p>
+          {% endif %}
+        </div>
+        {% endif %}
+
+        <div class="form-group mb-3">
+          <label for="{{ form.status.id_for_label }}">Status</label>
+          {{ form.status|add_class:"form-control" }}
+        </div>
+
+        <div class="d-flex justify-content-between">
+          <a href="{% url 'my_requests' %}" class="btn btn-secondary">Cancel</a>
+          <button type="submit" class="btn btn-success">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block title %}In Progress Requests{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">In Progress Requests</h4>
+        </div>
+        <div class="card-body table-responsive">
+            <table class="table table-bordered table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Request ID</th>
+                        <th>Title</th>
+                        <th>Requester</th>
+                        <th>Assigned Technician</th>
+                        <th>Created Date</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for req in requests %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ req.id }}</td>
+                        <td>{{ req.title|truncatechars:30 }}</td>
+                        <td>{{ req.requester.get_full_name }}</td>
+                        <td>{{ req.assigned_technician.user.get_full_name|default:"-" }}</td>
+                        <td>{{ req.created_at|date:"Y-m-d H:i" }}</td>
+                        <td class="text-center">
+                            <a href="{#}" class="btn btn-sm btn-warning me-1">Edit</a>
+                            <a href="{#}" class="btn btn-sm btn-info me-1">Assign</a>
+                            <a href="{#}" class="btn btn-sm btn-success">Details</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center text-muted">No in-progress requests found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <!-- Pagination -->
+            {% if requests.has_other_pages %}
+            <nav aria-label="Page navigation" class="mt-3">
+                <ul class="pagination justify-content-center">
+                    {% if requests.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ requests.previous_page_number }}">&laquo; Previous</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled"><span class="page-link">&laquo; Previous</span></li>
+                    {% endif %}
+
+                    {% for num in requests.paginator.page_range %}
+                        {% if requests.number == num %}
+                            <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                        {% else %}
+                            <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if requests.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ requests.next_page_number }}">Next &raquo;</a>
+                        </li>
+                    {% else %}
+                        <li class="page-item disabled"><span class="page-link">Next &raquo;</span></li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+{% endblock %}

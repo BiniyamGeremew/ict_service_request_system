@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+
+{% block content %}
+<section class="content">
+  <div class="container-fluid">
+    <div class="card card-primary mt-4 shadow-sm">
+      <div class="card-header bg-primary text-white">
+        <h3 class="card-title">Submit New Service Request</h3>
+      </div>
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="card-body">
+          {{ form.non_field_errors }}
+
+          <div class="row">
+            <!-- Left Column: Main fields -->
+            <div class="col-md-6 col-sm-12">
+              <div class="form-group mb-3">
+                <label for="id_title" class="font-weight-normal">Title</label>
+                {{ form.title|add_class:"form-control" }}
+              </div>
+
+              <div class="form-group mb-3">
+                <label for="id_description" class="font-weight-normal">Description</label>
+                {{ form.description|add_class:"form-control" }}
+              </div>
+            </div>
+
+            <!-- Right Column: Main fields -->
+            <div class="col-md-6 col-sm-12">
+              <div class="form-group mb-3">
+                <label for="id_category" class="font-weight-normal">Category</label>
+                {{ form.category|add_class:"form-control border border-info" }}
+              </div>
+
+              <div class="form-group mb-3">
+                <label for="id_priority" class="font-weight-normal">Priority</label>
+                {{ form.priority|add_class:"form-control" }}
+              </div>
+
+              <div class="form-group mb-3">
+                <label for="id_attachment" class="font-weight-normal">Attachment</label>
+                {{ form.attachment|add_class:"form-control-file" }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Location Section Header - full width, between main fields and location -->
+          <div class="mt-4 mb-3 p-3 border rounded bg-light">
+            <h5 class="mb-1">Location Details</h5>
+            <small class="text-muted">Please specify the block/building, floor, and room.</small>
+          </div>
+
+          <div class="row">
+            <!-- Left Column: Location fields -->
+            <div class="col-md-6 col-sm-12">
+              <div class="form-group mb-3">
+                <label for="id_block_building" class="font-weight-normal">Block/Building</label>
+                {{ form.block_building|add_class:"form-control" }}
+              </div>
+
+              <div class="form-group mb-3">
+                <label for="id_floor" class="font-weight-normal">Floor</label>
+                {{ form.floor|add_class:"form-control" }}
+              </div>
+            </div>
+
+            <!-- Right Column: Location field -->
+            <div class="col-md-6 col-sm-12">
+              <div class="form-group mb-3">
+                <label for="id_room" class="font-weight-normal">Room</label>
+                {{ form.room|add_class:"form-control" }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-footer text-center">
+          <button type="submit" class="btn btn-primary px-5">Submit Request</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

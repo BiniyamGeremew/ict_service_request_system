@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Add Technician{% endblock %}
+
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Add Technician</h4>
+        </div>
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="row">
+                    {% for field in form %}
+                        <div class="col-md-6 mb-3">
+                            <label>{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.errors %}
+                                <div class="text-danger small">{{ field.errors|striptags }}</div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="d-flex justify-content-end">
+                    <a href="{% url 'technician_list' %}" class="btn btn-secondary me-2" style="margin-right: 20px;">Cancel</a>
+                    <button type="submit" class="btn btn-success">Add Technician</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

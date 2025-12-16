@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Request Detail{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+
+  <h1 class="mb-4">Request Detail - ID: {{ service_request.id }}</h1>
+
+  <!-- Main Request Info -->
+  <div class="row g-4">
+    <div class="col-lg-7">
+      <div class="card shadow-sm border-primary">
+        <div class="card-header bg-primary text-white">
+          <h4 class="mb-0">Request Details</h4>
+        </div>
+        <div class="card-body">
+          <dl class="row mb-0">
+            <dt class="col-sm-4 fw-semibold">Title:</dt>
+            <dd class="col-sm-8">{{ service_request.title }}</dd>
+
+            <dt class="col-sm-4 fw-semibold">Status:</dt>
+            <dd class="col-sm-8">{{ service_request.status }}</dd>
+
+            <dt class="col-sm-4 fw-semibold">Priority:</dt>
+            <dd class="col-sm-8">
+              {% if service_request.priority %}
+                {{ service_request.priority.name }}
+              {% else %}
+                N/A
+              {% endif %}
+            </dd>
+
+            <dt class="col-sm-4 fw-semibold">Description:</dt>
+            <dd class="col-sm-8">{{ service_request.description }}</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+
+    <!-- Staff Information -->
+    <div class="col-lg-5">
+      <div class="card shadow-sm border-info">
+        <div class="card-header bg-info text-white">
+          <h5 class="mb-0">Staff Information</h5>
+        </div>
+        <div class="card-body">
+          <dl class="row mb-0">
+            <dt class="col-5 fw-semibold">Name:</dt>
+            <dd class="col-7">{{ service_request.created_by.get_full_name }}</dd>
+
+            <dt class="col-5 fw-semibold">Department:</dt>
+            <dd class="col-7">{{ service_request.created_by.department.name }}</dd>
+
+            <dt class="col-5 fw-semibold">Phone Number:</dt>
+            <dd class="col-7">{{ service_request.created_by.phone_number }}</dd>
+
+            <dt class="col-5 fw-semibold">Email:</dt>
+            <dd class="col-7">{{ service_request.created_by.email }}</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <a href="{% url 'technician_assigned_requests' %}" class="btn btn-secondary">Back</a>
+  </div>
+</div>
+{% endblock %}

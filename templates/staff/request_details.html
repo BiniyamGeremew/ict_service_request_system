@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block title %}Request Details{% endblock %}
+
+{% block content %}
+<div class="content p-4">
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <h2 class="mb-0">Request Details</h2>
+    </div>
+    <div class="card-body">
+      <h4 class="mb-3">{{ request_obj.title }}</h4>
+
+      <dl class="row">
+        <dt class="col-sm-3">Description:</dt>
+        <dd class="col-sm-9">{{ request_obj.description }}</dd>
+
+        <dt class="col-sm-3">Status:</dt>
+        <dd class="col-sm-9">
+          <span class="badge 
+            {% if request_obj.status == 'New' %}bg-primary
+            {% elif request_obj.status == 'Assigned' %}bg-warning text-dark
+            {% elif request_obj.status == 'Accepted' %}bg-info
+            {% elif request_obj.status == 'Rejected' %}bg-danger
+            {% elif request_obj.status == 'In Progress' %}bg-secondary
+            {% elif request_obj.status == 'Completed' %}bg-success
+            {% elif request_obj.status == 'Closed' %}bg-dark
+            {% else %}bg-light text-muted
+            {% endif %}">
+            {{ request_obj.status }}
+          </span>
+        </dd>
+
+        <dt class="col-sm-3">Priority:</dt>
+        <dd class="col-sm-9">{{ request_obj.priority.name }}</dd>
+
+        <dt class="col-sm-3">Category:</dt>
+        <dd class="col-sm-9">{{ request_obj.category.name }}</dd>
+
+        <dt class="col-sm-3">Location:</dt>
+        <dd class="col-sm-9">{{ request_obj.location }}</dd>
+
+        <dt class="col-sm-3">Created At:</dt>
+        <dd class="col-sm-9">{{ request_obj.created_at|date:"F j, Y, g:i a" }}</dd>
+
+        <dt class="col-sm-3">Updated At:</dt>
+        <dd class="col-sm-9">{{ request_obj.updated_at|date:"F j, Y, g:i a" }}</dd>
+
+        {% if request_obj.attachment %}
+        <dt class="col-sm-3">Attachment:</dt>
+        <dd class="col-sm-9">
+          <a href="{{ request_obj.attachment.url }}" target="_blank" class="btn btn-sm btn-outline-primary">
+            View Attachment
+          </a>
+        </dd>
+        {% endif %}
+      </dl>
+
+      {% if request_obj.assigned_to %}
+      <hr>
+      <h5 class="mt-4 text-info fw-bold">Technician Information</h5>
+      <dl class="row">
+        <dt class="col-sm-3">Name:</dt>
+        <dd class="col-sm-9">{{ request_obj.assigned_to.get_full_name }}</dd>
+
+        <dt class="col-sm-3">Phone Number:</dt>
+        <dd class="col-sm-9">{{ request_obj.assigned_to.phone_number }}</dd>
+
+        <dt class="col-sm-3">Email:</dt>
+        <dd class="col-sm-9">{{ request_obj.assigned_to.email }}</dd>
+      </dl>
+      {% else %}
+      <hr>
+      <p class="text-muted">No technician has been assigned to this request yet.</p>
+      {% endif %}
+
+      <a href="{% url 'my_requests' %}" class="btn btn-secondary mt-3">Back to My Requests</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Technician Profile{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2>Technician Profile</h2>
+  <p><strong>Name:</strong> {{ technician.get_full_name }}</p>
+  <p><strong>Email:</strong> {{ technician.email }}</p>
+  <p><strong>Username:</strong> {{ technician.username }}</p>
+  <!-- Add more fields or related requests here -->
+</div>
+{% endblock %}

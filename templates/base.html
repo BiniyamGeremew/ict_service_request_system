@@ -1,0 +1,127 @@
+{% load static %}
+{% load custom_filters %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}Dashboard{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{% static 'adminlte/plugins/fontawesome-free/css/all.min.css' %}">
+  <link rel="stylesheet" href="{% static 'adminlte/dist/css/adminlte.min.css' %}">
+  {% block extra_css %}{% endblock %}
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
+
+  <!-- Navbar -->
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+      <!-- Hamburger / Pushmenu Toggle -->
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button">
+          <i class="fas fa-bars"></i>
+        </a>
+      </li>
+    </ul>
+
+    <!-- Right navbar links -->
+    <ul class="navbar-nav ml-auto">
+      <!-- Notifications Dropdown Menu -->
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+          <i class="far fa-bell"></i>
+          {% if unread_count > 0 %}
+            <span class="badge badge-warning navbar-badge">{{ unread_count }}</span>
+          {% endif %}
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+          <span class="dropdown-item dropdown-header">{{ unread_count }} Notifications</span>
+          <div class="dropdown-divider"></div>
+          {% for note in notifications %}
+            <a href="#" class="dropdown-item">
+              <i class="fas fa-info-circle mr-2"></i> {{ note.message }}
+              <span class="float-right text-muted text-sm">{{ note.created_at|timesince }} ago</span>
+            </a>
+            <div class="dropdown-divider"></div>
+          {% empty %}
+            <span class="dropdown-item">No notifications</span>
+          {% endfor %}
+          <a href="{% url 'notifications' %}" class="dropdown-item dropdown-footer">See All Notifications</a>
+        </div>
+      </li>
+    </ul>
+  </nav>
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+
+    <!-- Brand Logo -->
+    <div class="d-flex align-items-center justify-content-between px-3 py-2">
+      {% if user|has_group:'admin' %}
+        <a href="{% url 'adminn_dashboard' %}" class="brand-link d-flex align-items-center">
+      {% elif user|has_group:'staff' %}
+        <a href="{% url 'staff_dashboard' %}" class="brand-link d-flex align-items-center">
+      {% elif user|has_group:'technician' %}
+        <a href="{% url 'technician_dashboard' %}" class="brand-link d-flex align-items-center">
+      {% elif user|has_group:'manager' %}
+        <a href="{% url 'manager_dashboard' %}" class="brand-link d-flex align-items-center">
+      {% else %}
+        <a href="#" class="brand-link d-flex align-items-center">
+      {% endif %}
+          <img src="{% static 'img/uniLogoo.jpg' %}" alt="Uni Logo" class="brand-image img-circle elevation-3" style="opacity: .8; width:35px; height:35px;">
+          <span class="brand-text font-weight-light ml-2">ICT-SRS</span>
+        </a>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      {% if user|has_group:'staff' %}
+        {% include 'staff/sidebar_staff.html' %}
+      {% elif user|has_group:'admin' %}
+        {% include 'adminn/sidebar_admin.html' %}
+      {% elif user|has_group:'technician' %}
+        {% include 'technician/sidebar_technician.html' %}
+      {% elif user|has_group:'manager' %}
+        {% include 'manager/sidebar_manager.html' %}
+      {% endif %}
+    </div>
+  </aside>
+
+  <!-- Content Wrapper -->
+  <div class="content-wrapper">
+    <!-- MESSAGES BLOCK START -->
+    {% if messages %}
+      <div class="container mt-2">
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    <!-- MESSAGES BLOCK END -->
+
+    {% block content %}{% endblock %}
+  </div>
+  <!-- /.content-wrapper -->
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <strong>Copyright © 2025 Hawassa University.</strong> All rights reserved.
+  </footer>
+</div>
+<!-- ./wrapper -->
+
+<script src="{% static 'adminlte/plugins/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'adminlte/dist/js/adminlte.min.js' %}"></script>
+<script src="{% static 'adminlte/plugins/chart.js/chart.min.js' %}"></script>
+
+{% block extra_js %}{% endblock %}
+</body>
+</html>

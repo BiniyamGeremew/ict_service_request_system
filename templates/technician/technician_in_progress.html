@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}In Progress Requests{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h1 class="mb-4">In Progress Requests</h1>
+
+  {% if in_progress %}
+    <div class="row">
+      {% for request_item in in_progress %}
+        <div class="col-md-6 mb-4">
+          <div class="card shadow-sm border-0">
+            <div class="card-body">
+              <h5 class="card-title">{{ request_item.title }}</h5>
+              <p class="card-text">
+                <strong>Description:</strong> {{ request_item.description }}<br>
+                <strong>Status:</strong> {{ request_item.status }}<br>
+                <strong>Assigned Date:</strong> {{ request_item.assigned_date|date:"Y-m-d H:i" }}
+              </p>
+              <div class="d-flex justify-content-end">
+                <!-- Mark as Completed (status becomes Awaiting Confirmation) -->
+                <form action="{% url 'mark_request_complete' request_item.id %}" method="post" style="display:inline;">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-success btn-sm"
+                    onclick="return confirm('Are you sure you want to mark this request as completed? This will require staff confirmation.');">
+                    Mark as Completed
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="alert alert-info">
+      No requests are currently in progress.
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

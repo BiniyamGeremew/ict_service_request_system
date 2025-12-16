@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Notifications{% endblock %}
+
+{% block content %}
+<div class="container-fluid pt-3">
+
+  <!-- Page Header -->
+  <div class="row mb-3">
+    <div class="col-12">
+      <h2>Notifications</h2>
+      <p class="text-muted">Your recent notifications</p>
+    </div>
+  </div>
+
+  <!-- Quick Actions (optional) -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <a href="{% url 'technician_dashboard' %}" class="btn btn-primary mr-2 mb-2">
+        <i class="fas fa-arrow-left"></i> Back to Dashboard
+      </a>
+      <a href="{#}" class="btn btn-danger mb-2">
+        <i class="fas fa-trash"></i> Clear All
+      </a>
+    </div>
+  </div>
+
+  <!-- Notifications List -->
+  <div class="row">
+    <div class="col-12">
+      <div class="card card-outline card-info">
+        <div class="card-header">
+          <h3 class="card-title">Latest Notifications</h3>
+        </div>
+        <div class="card-body p-0">
+          <ul class="list-group list-group-flush">
+            {% for notif in notifications %}
+            <li class="list-group-item {% if not notif.read %}bg-light{% endif %}">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <strong>{{ notif.title }}</strong><br>
+                  <small class="text-muted">{{ notif.message }}</small>
+                </div>
+                <div class="text-right">
+                  <small class="text-muted">{{ notif.created_at|date:"M d, Y H:i" }}</small>
+                  {% if not notif.read %}
+                  <form method="post" action="{% url 'mark_notification_read' notif.id %}" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-success ml-2">Mark Read</button>
+                  </form>
+                  {% endif %}
+                </div>
+              </div>
+            </li>
+            {% empty %}
+            <li class="list-group-item text-center text-muted">
+              No notifications found.
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

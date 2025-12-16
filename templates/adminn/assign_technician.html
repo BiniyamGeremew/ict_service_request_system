@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container-fluid mt-4">
+
+  <div class="card card-primary shadow-sm">
+    <div class="card-header">
+      <h3 class="card-title fw-bold">Assign Technician</h3>
+    </div>
+
+    <div class="card-body bg-white">
+
+      <h5 class="mb-4 border-bottom pb-2 text-muted">Service Request Details</h5>
+
+      <dl class="row mb-5">
+        <dt class="col-sm-3 text-secondary fw-semibold">Request ID:</dt>
+        <dd class="col-sm-9">{{ service_request.id }}</dd>
+
+        <dt class="col-sm-3 text-secondary fw-semibold">Title:</dt>
+        <dd class="col-sm-9">{{ service_request.title }}</dd>
+
+        <dt class="col-sm-3 text-secondary fw-semibold">Category:</dt>
+        <dd class="col-sm-9">{{ service_request.category.name }}</dd>
+
+        <dt class="col-sm-3 text-secondary fw-semibold">Submitted By:</dt>
+        <dd class="col-sm-9">{{ service_request.created_by.get_full_name }}</dd>
+      </dl>
+
+      <form method="post" class="row g-3">
+        {% csrf_token %}
+
+        <div class="col-12">
+          <label for="technician" class="form-label fw-semibold">Select Technician</label>
+          <select name="technician" id="technician" class="form-select form-control-sm" required>
+    <option value="" disabled selected>-- Choose a technician --</option>
+    {% for tech in technicians %}
+        <option value="{{ tech.id }}">
+            {{ tech.user.get_full_name }} ({{ tech.active_request_count }} active)
+        </option>
+    {% endfor %}
+</select>
+
+        </div>
+
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary btn-sm fw-semibold w-100 mb-2">Assign</button>
+        </div>
+
+        <div class="col-12">
+          <a href="{% url 'all_requests' %}" class="btn btn-outline-secondary btn-sm w-100">Cancel</a>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+</div>
+{% endblock %}

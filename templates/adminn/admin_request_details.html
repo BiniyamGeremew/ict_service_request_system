@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% block title %}Request Details{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+
+  <div class="row g-4">
+    <!-- Request Details Card -->
+    <div class="col-lg-7">
+      <div class="card shadow-sm border-primary">
+        <div class="card-header bg-primary text-white">
+          <h4 class="mb-0">Request Details</h4>
+        </div>
+        <div class="card-body">
+          <h5 class="mb-3 fw-semibold">{{ request_obj.title }}</h5>
+
+          <dl class="row">
+            <dt class="col-sm-4 fw-semibold">Description:</dt>
+            <dd class="col-sm-8">{{ request_obj.description }}</dd>
+
+            <dt class="col-sm-4 fw-semibold">Status:</dt>
+            <dd class="col-sm-8">
+              <span class="badge 
+                {% if request_obj.status == 'New' %}bg-primary
+                {% elif request_obj.status == 'Assigned' %}bg-warning text-dark
+                {% elif request_obj.status == 'Accepted' %}bg-info
+                {% elif request_obj.status == 'Rejected' %}bg-danger
+                {% elif request_obj.status == 'In Progress' %}bg-secondary
+                {% elif request_obj.status == 'Completed' %}bg-success
+                {% elif request_obj.status == 'Closed' %}bg-dark
+                {% else %}bg-light text-muted
+                {% endif %} px-3 py-1">
+                {{ request_obj.status }}
+              </span>
+            </dd>
+
+            <dt class="col-sm-4 fw-semibold">Priority:</dt>
+            <dd class="col-sm-8">{{ request_obj.priority.name }}</dd>
+
+            <dt class="col-sm-4 fw-semibold">Category:</dt>
+            <dd class="col-sm-8">{{ request_obj.category.name }}</dd>
+
+            <dt class="col-sm-4 fw-semibold">Location:</dt>
+            <dd class="col-sm-8">{{ request_obj.location }}</dd>
+
+            <dt class="col-sm-4 fw-semibold">Created At:</dt>
+            <dd class="col-sm-8">{{ request_obj.created_at|date:"F j, Y, g:i a" }}</dd>
+
+            <dt class="col-sm-4 fw-semibold">Last Updated:</dt>
+            <dd class="col-sm-8">{{ request_obj.updated_at|date:"F j, Y, g:i a" }}</dd>
+
+            {% if request_obj.attachment %}
+            <dt class="col-sm-4 fw-semibold">Attachment:</dt>
+            <dd class="col-sm-8">
+              <a href="{{ request_obj.attachment.url }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                View Attachment
+              </a>
+            </dd>
+            {% endif %}
+          </dl>
+        </div>
+      </div>
+    </div>
+
+    <!-- Staff Info Card -->
+    <div class="col-lg-5">
+      <div class="card shadow-sm border-info">
+        <div class="card-header bg-info text-white">
+          <h5 class="mb-0">Staff Information</h5>
+        </div>
+        <div class="card-body">
+          <dl class="row mb-0">
+            <dt class="col-5 fw-semibold">Name:</dt>
+            <dd class="col-7">{{ request_obj.created_by.get_full_name }}</dd>
+
+            <dt class="col-5 fw-semibold">Department:</dt>
+            <dd class="col-7">{{ request_obj.created_by.department.name }}</dd>
+
+            <dt class="col-5 fw-semibold">Phone Number:</dt>
+            <dd class="col-7">{{ request_obj.created_by.phone_number }}</dd>
+
+            <dt class="col-5 fw-semibold">Email:</dt>
+            <dd class="col-7">{{ request_obj.created_by.email }}</dd>
+          </dl>
+        </div>
+      </div>
+
+      <!-- Technician Info or Assignment Button -->
+      <div class="card shadow-sm border-warning mt-4">
+        <div class="card-header bg-warning text-dark">
+          <h5 class="mb-0">Technician Assignment</h5>
+        </div>
+        <div class="card-body">
+          {% if request_obj.assigned_to %}
+            <dl class="row mb-0">
+              <dt class="col-5 fw-semibold">Technician:</dt>
+              <dd class="col-7">{{ request_obj.assigned_to.get_full_name }}</dd>
+
+              <dt class="col-5 fw-semibold">Phone Number:</dt>
+              <dd class="col-7">{{ request_obj.assigned_to.phone_number }}</dd>
+
+              <dt class="col-5 fw-semibold">Status:</dt>
+              <dd class="col-7">
+                <span class="badge
+                  {% if request_obj.status == 'Accepted' %}bg-info
+                  {% elif request_obj.status == 'In Progress' %}bg-secondary
+                  {% elif request_obj.status == 'Completed' %}bg-success
+                  {% elif request_obj.status == 'Rejected' %}bg-danger
+                  {% else %}bg-light text-muted{% endif %} px-3 py-1">
+                  {{ request_obj.status }}
+                </span>
+              </dd>
+            </dl>
+          {% else %}
+            {% if not request_obj.assigned_to %}
+              <a href="{% url 'assign_technician' request_obj.id %}" class="btn btn-sm btn-warning fw-semibold">Assign</a>
+            {% endif %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-4">
+    <a href="{% url 'all_requests' %}" class="btn btn-secondary">Back to All Requests</a>
+  </div>
+</div>
+{% endblock %}

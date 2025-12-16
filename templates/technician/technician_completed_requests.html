@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Completed Requests{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h1 class="mb-4 text-success fw-bold">Completed Requests</h1>
+
+  {% if completed_requests %}
+    <div class="row">
+      {% for request in completed_requests %}
+        <div class="col-md-6 col-lg-4 mb-4">
+          <div class="card shadow-sm border-success">
+            <div class="card-header bg-success text-white fw-bold d-flex justify-content-between align-items-center">
+              <span>Request #{{ request.id }}</span>
+              <span class="badge bg-success">Completed</span>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">{{ request.title }}</h5>
+              <p class="card-text text-muted">
+                {{ request.description|truncatewords:20 }}
+              </p>
+              <ul class="list-unstyled small">
+                <li><strong>Client:</strong> {{ request.created_by.get_full_name }}</li>
+                <li><strong>Completed on:</strong> 
+                  {% if request.completed_at %}
+                    {{ request.completed_at|date:"M d, Y H:i" }}
+                  {% else %}
+                    N/A
+                  {% endif %}
+                </li>
+                <li><strong>Priority:</strong> {{ request.priority.name }}</li>
+                <li><strong>Category:</strong> {{ request.category.name }}</li>
+              </ul>
+              {% if request.attachment %}
+              <a href="{{ request.attachment.url }}" target="_blank" class="btn btn-outline-success btn-sm mt-2">View Attachment</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="alert alert-info text-center p-4 rounded shadow-sm">
+      <h5>No completed requests yet</h5>
+      <p class="mb-0">Once you mark a request as complete, it will appear here.</p>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

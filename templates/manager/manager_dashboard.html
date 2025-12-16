@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Manager Dashboard{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h1 class="mb-4">Manager Dashboard</h1>
+
+  <!-- Quick Action Buttons -->
+  <div class="row">
+    <div class="col-auto mb-2">
+      <a href="{% url 'add_user' %}" class="btn btn-primary">
+        <i class="fas fa-user-plus"></i> Add User
+      </a>
+    </div>
+
+    <div class="col-auto mb-2">
+      <a href="{% url 'all_requests' %}" class="btn btn-info">
+        <i class="fas fa-tasks"></i> View Requests
+      </a>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,60 @@
+<nav class="mt-2">
+  <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+
+    <li class="nav-item">
+      <a href="{% url 'staff_dashboard' %}" class="nav-link">
+        <i class="nav-icon fas fa-tachometer-alt text-primary"></i>
+        <p>Dashboard</p>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a href="{% url 'view_profile' %}" class="nav-link">
+        <i class="nav-icon fas fa-user text-info"></i>
+        <p>My Profile</p>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a href="{% url 'submit_request' %}" class="nav-link">
+        <i class="nav-icon fas fa-edit text-warning"></i>
+        <p>Submit Request</p>
+      </a>
+    </li>
+
+    <!-- My Requests -->
+    <li class="nav-item">
+  <a href="{% url 'my_requests' %}" class="nav-link">
+    <i class="nav-icon fas fa-list text-success"></i>
+    <p>View Requests</p>
+  </a>
+</li>
+<li class="nav-item">
+  <a href="{% url 'submit_request' %}" class="nav-link">
+    <i class="nav-icon fas fa-edit text-primary"></i>
+    <p>Add Request</p>
+  </a>
+</li>
+<li class="nav-item">
+  <a href="{% url 'my_requests' %}" class="nav-link">
+    <i class="nav-icon fas fa-pen text-warning"></i>
+    <p>Edit Requests</p>
+  </a>
+</li>
+
+    <li class="nav-item">
+      <a href="{% url 'notifications' %}" class="nav-link">
+        <i class="nav-icon fas fa-bell text-danger"></i>
+        <p>Notifications</p>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a href="{% url 'login' %}" class="nav-link">
+        <i class="nav-icon fas fa-sign-out-alt text-muted"></i>
+        <p>Logout</p>
+      </a>
+    </li>
+
+  </ul>
+</nav>

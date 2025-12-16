@@ -1,0 +1,151 @@
+<nav class="mt-2">
+  <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
+    <!-- Dashboard -->
+    <li class="nav-item">
+      <a href="{% url 'adminn_dashboard' %}" class="nav-link">
+        <i class="nav-icon fas fa-tachometer-alt text-primary"></i>
+        <p>Dashboard</p>
+      </a>
+    </li>
+
+    <!-- User Management -->
+    <li class="nav-item has-treeview">
+      <a href="#" class="nav-link">
+        <i class="nav-icon fas fa-users-cog text-warning"></i>
+        <p>
+          User Management
+          <i class="right fas fa-angle-left"></i>
+        </p>
+      </a>
+      <ul class="nav nav-treeview pl-3">
+        <li class="nav-item">
+          <a href="{% url 'add_user' %}" class="nav-link">
+            <i class="fas fa-user-plus nav-icon text-success"></i>
+            <p>Add New User</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'view_users' %}" class="nav-link">
+            <i class="fas fa-user-friends nav-icon text-info"></i>
+            <p>All Users</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'technician_list' %}" class="nav-link">
+            <i class="fas fa-tools nav-icon text-danger"></i>
+            <p>Technicians List</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'add_technician' %}" class="nav-link">
+            <i class="fas fa-user-cog nav-icon text-warning"></i>
+            <p>Add Technician</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'staff_list' %}" class="nav-link">
+            <i class="fas fa-chalkboard-teacher nav-icon text-info"></i>
+            <p>Staff Users List</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'department_list' %}" class="nav-link">
+            <i class="fas fa-building nav-icon text-primary"></i>
+            <p>Departments</p>
+          </a>
+        </li>
+      </ul>
+    </li>
+
+    <!-- Service Requests -->
+<li class="nav-item">
+  <a href="{% url 'all_requests' %}" class="nav-link">
+    <i class="nav-icon fas fa-inbox text-warning"></i>
+    <p>All Requests</p>
+  </a>
+</li>
+
+<li class="nav-item">
+  <a href="{% url 'completed_requests' %}" class="nav-link">
+    <i class="nav-icon fas fa-check-circle text-success"></i>
+    <p>Completed Requests</p>
+  </a>
+</li>
+
+<li class="nav-item">
+  <a href="{% url 'in_progress_requests' %}" class="nav-link">
+    <i class="nav-icon fas fa-spinner text-warning"></i>
+    <p>In Progress Requests</p>
+  </a>
+</li>
+
+<li class="nav-item">
+  <a href="{% url 'all_requests' %}" class="nav-link">
+    <i class="nav-icon fas fa-user-check text-primary"></i>
+    <p>Assign Technician</p>
+  </a>
+</li>
+
+
+    <!-- Service Configuration -->
+    <li class="nav-item has-treeview">
+      <a href="#" class="nav-link">
+        <i class="nav-icon fas fa-cogs text-primary"></i>
+        <p>
+          Service Configuration
+          <i class="right fas fa-angle-left"></i>
+        </p>
+      </a>
+      <ul class="nav nav-treeview pl-3">
+        <li class="nav-item">
+          <a href="{% url 'service_category' %}" class="nav-link">
+            <i class="fas fa-tags nav-icon text-warning"></i>
+            <p>Service Categories</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'priority_list' %}" class="nav-link">
+            <i class="fas fa-exclamation-circle nav-icon text-danger"></i>
+            <p>Priority Levels</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'support_department_list' %}" class="nav-link">
+            <i class="fas fa-sitemap nav-icon text-info"></i>
+            <p>Support Departments</p>
+          </a>
+        </li>
+      </ul>
+    </li>
+
+    <!-- Reports & Logs -->
+<li class="nav-item">
+  <a href="{% url 'request_reports' %}" class="nav-link">
+    <i class="nav-icon fas fa-file-alt text-warning"></i>
+    <p>Request Reports</p>
+  </a>
+</li>
+
+    <!-- System Settings -->
+    <li class="nav-item">
+      <a href="#" class="nav-link">
+        <i class="nav-icon fas fa-user-edit text-info"></i>
+        <p>Edit Profile</p>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="#" class="nav-link">
+        <i class="nav-icon fas fa-key text-warning"></i>
+        <p>Change Password</p>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="{% url 'login' %}" class="nav-link">
+        <i class="nav-icon fas fa-sign-out-alt text-danger"></i>
+        <p>Logout</p>
+      </a>
+    </li>
+
+  </ul>
+</nav>
