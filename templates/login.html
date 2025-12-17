@@ -86,16 +86,14 @@
 </head>
 <body>
   <div class="login-container">
-    <!-- University Logo -->
-    <img src="{% static 'img/uniLogo.jpg' %}" alt="University Logo" class="logo" />
 
+    <br>
     <!-- System Name -->
-    <div class="system-title">ICT Service Request System</div>
+    <div class="system-title">ICT Service Request <br>System</div>
 
     <!-- Welcome Text -->
     <p class="text-center text-muted mb-4">Use your username and password to log in</p>
 
-    <!-- MESSAGES START HERE -->
     {% if messages %}
       <div class="mb-3">
         {% for message in messages %}
@@ -106,7 +104,6 @@
         {% endfor %}
       </div>
     {% endif %}
-    <!-- MESSAGES END HERE -->
 
     <!-- Login Form -->
     <form method="POST">
